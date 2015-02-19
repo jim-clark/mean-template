@@ -1,8 +1,22 @@
-// grab our gulp packages
-var gulp = require('gulp')
-var gutil = require('gulp-util');
+(function() {
 
-// create a default task and just log a message
-gulp.task('default', function() {
-  return gutil.log('Gulp is running!')
-})
+  // grab our gulp packages
+  var gulp = require('gulp'),
+      gutil = require('gulp-util'),
+      nodemon = require('gulp-nodemon');
+
+  //register nodemon task
+  gulp.task('nodemon', function() {
+    nodemon({
+      script: 'server.js',
+      ext: 'js html',
+      env: { 'NODE_ENV': 'development' }
+    })
+      .on('restart');
+  });
+
+  // runs when you run 'gulp'
+  gulp.task('default', ['nodemon']);
+
+
+})();
