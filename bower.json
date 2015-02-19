@@ -1,0 +1,22 @@
+{
+  "name": "carf",
+  "version": "0.0.0",
+  "homepage": "https://github.com/jim-clark/capital-asset-replacement-fund",
+  "authors": [
+    "jim-clark <email@jim-clark.com>"
+  ],
+  "moduleType": [
+    "node"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.3"
+  }
+}
