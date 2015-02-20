@@ -8,7 +8,7 @@
   //register nodemon task
   gulp.task('nodemon', function() {
     nodemon({
-      script: 'server.js',
+      script: './server.js',
       ext: 'js html',
       env: { 'NODE_ENV': 'development' }
     })
