@@ -1,0 +1,1 @@
+angular.module("templates").run(["$templateCache", function($templateCache) {$templateCache.put("js/shell/shell.html","<h1>Shell Page</h1>");}]);
