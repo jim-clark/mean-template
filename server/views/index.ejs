@@ -15,7 +15,20 @@
     <!-- build:js /js/site.js -->
     <script src="/bower_components/jquery/dist/jquery.js"></script>
     <script src="/bower_components/angular/angular.js"></script>
+    <script src="/bower_components/angular-ui-router/release/angular-ui-router.js"></script>
     <script src="/bower_components/semantic-ui/dist/semantic.js"></script>
     <!-- endbuild -->
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script>
+      // load google charting library and manually bootstrap angular
+      // angular.element(document).ready(function() {
+      //   // google.setOnLoadCallback(function() {
+      //   // });
+        google.load('visualization', '1', {
+          packages: ['corechart']
+        });
+      //   angular.bootstrap(document.body, ['app']);
+      // });
+    </script>
   </body>
 </html>
