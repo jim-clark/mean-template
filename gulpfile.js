@@ -12,7 +12,12 @@
   // builds an anglular module, 'templates', as 'templates.js'
   gulp.task('angular-templates', function () {
       gulp.src('./src/**/*.html')
-          .pipe(templateCache())
+          .pipe(templateCache(
+            'templates.js',
+            {
+              standalone: true,
+              module: 'templates'
+            }))
           .pipe(gulp.dest('src/js'));
   });
 
