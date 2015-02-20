@@ -3,7 +3,9 @@
   // grab our gulp packages
   var gulp = require('gulp'),
       gutil = require('gulp-util'),
-      nodemon = require('gulp-nodemon');
+      nodemon = require('gulp-nodemon'),
+      uglify = require('gulp-uglify'),
+      concat = require('gulp-concat'),
       templateCache = require('gulp-angular-templatecache');
 
 
