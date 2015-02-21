@@ -10,7 +10,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
 var app = express();
-var routes = require('./server/routes/index')(app);
+require('./server/routes/index')(app);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'server', 'views'));
