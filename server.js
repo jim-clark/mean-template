@@ -9,9 +9,8 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
-var routes = require('./server/routes');
-
 var app = express();
+var routes = require('./server/routes/index')(app);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'server', 'views'));
@@ -30,8 +29,6 @@ app.use(cors());
 // setup passport
 // app.use(passport.initialize());
 // app.use(passport.session);
-
-app.use('/', routes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -75,7 +72,6 @@ app.use(function(err, req, res, next) {
 // mongoose.connect('mongodb://localhost/passport_local_mongoose');
 
 var db = require('./server/config/database');
-
 mongoose.connect(db.url);
 var db = mongoose.connection;
 db.on('error', function (msg) {
