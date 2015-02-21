@@ -19,16 +19,19 @@ app.set('view options', { layout: false });
 
 app.use(favicon(path.join(__dirname,'public','img','favicon.ico')));
 app.use(logger('dev'));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(require('less-middleware')(path.join(__dirname, 'public')));
+// app.use(require('less-middleware')(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/bower_components',  express.static(__dirname + '/bower_components'));
 app.use(cors());
 // setup passport
 // app.use(passport.initialize());
 // app.use(passport.session);
+
+//  TESTING /////////////
+var User = require('./server/models/user');
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

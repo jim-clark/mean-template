@@ -1,3 +1,63 @@
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+var bcrypt = require('bcrypt-nodejs');
+
+// user schema
+var UserSchema = new Schema({
+    firstName: { type: String, required: true },
+    lastName: { type: String, required: true },
+    email: {
+        type: String,
+        required: true,
+        index: { unique: true },
+    //     // sample validation
+    //     validate: [
+    //         function (val) { return true; },
+    //         'Not a valid email format'
+    //     ]
+    },
+    // isAdmin: { type: Boolean, default: false },
+    // canEdit: { type: Boolean, default: true },
+    isActive: { type: Boolean, default: true },
+    // force_password_reset: { type: Boolean, default: true },
+    password: {
+        type: String,
+        required: true,
+        select: false
+    },
+    createdAt: { type: Date, default: Date.now },
+    updatedAt: { type: Date, default: Date.now }
+});
+
+UserSchema.pre('save', function (next) {
+    var user = this;
+
+    // hash the password only if the user is new or password has been changed
+    if (!user.isModified('password')) return next();
+
+    // update the password with a hash
+    bcrypt.hash(user.password, null, null, function (err, hash) {
+        if (err) return next(err);
+        user.password = hash;
+        next();
+    });
+});
+
+UserSchema.methods.fullName = function () {
+    return this.firstName + ' ' + this.lastName;
+};
+
+UserSchema.methods.authenticate = function (password) {
+    var user = this;
+    return bcrypt.compareSync(password, user.password);
+};
+
+// return the model
+module.exports = mongoose.model('User', UserSchema);
+
+/* need to add method for created_at field: return ObjectId(_id).getTimestamp() */
+
+
 // class User
 //   include Mongoid::Document
 //   include Mongoid::Timestamps

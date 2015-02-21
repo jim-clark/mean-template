@@ -10,11 +10,12 @@ var router = express.Router();
 router.use(function (req, res, next) {
   // validate email and password data
 
+  next();
 });
 
 // POST /login
 router.post('/', function(req, res) {
-  res.send({ user: 'logged in user' });
+  res.json({ user: 'logged in user' });
 });
 
 module.exports = router;

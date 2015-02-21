@@ -10,12 +10,13 @@ var router = express.Router();
 router.use(function (req, res, next) {
     // get logged in user
 
+    next();
 });
 
 
 // POST /user/logout
 router.post('/logout', function(req, res) {
-  res.send({ user: 'logged out' });
+  res.json({ message: 'logged out' });
 });
 
 module.exports = router;
