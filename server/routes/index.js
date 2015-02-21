@@ -1,9 +1,12 @@
 module.exports = function (app) {
 
-  // main route
+  // main route which loads angular app
+  // no other server routes, other than api's
   app.use('/', require('./main'));
 
   // api routes
-  app.use('/users', require('./users'));
+  app.use('/login', require('./anom_user'));
+  app.use('/user', require('./user'));
+  app.use('/admin', require('./admin'));
 
 };
