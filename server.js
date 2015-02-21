@@ -74,11 +74,9 @@ app.use(function(err, req, res, next) {
 // // mongoose
 // mongoose.connect('mongodb://localhost/passport_local_mongoose');
 
-var db_name = 'carf';
-mongodb_connection_string = process.env.OPENSHIFT_MONGODB_DB_URL ?
-  process.env.OPENSHIFT_MONGODB_DB_URL + db_name : 'mongodb://127.0.0.1:27017/' + db_name;
+var db = require('./server/config/database');
 
-mongoose.connect(mongodb_connection_string);
+mongoose.connect(db.url);
 var db = mongoose.connection;
 db.on('error', function (msg) {
     console.log(msg);
