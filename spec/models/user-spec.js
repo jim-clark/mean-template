@@ -22,8 +22,12 @@ describe("Model: User", function () {
 
     afterAll(function (done) {
         // delete any created users in carf_test db
-        // User.remove({});
-        mongoose.disconnect(done);
+        User.remove({}, function () {
+            mongoose.disconnect(function () {
+                console.log('\nMongoose disconnected from: ' + constants.TEST_DB_NAME);
+                done();
+            });
+        });
     });
 
     it("mongoose should be connected", function () {
@@ -99,6 +103,20 @@ describe("Model: User", function () {
             expect(validNewUser.fullName).toBe('Jim Clark');
         });
 
+        it("is invalid if the email already exists", function (done) {
+            validNewUser.save(function (err) {
+                anotherUser = new User({
+                    firstName: "Jim",
+                    lastName: "Clark",
+                    email: "email@jim-clark.com"
+                });                
+                anotherUser.save(function (err) {
+                    expect(err).not.toBeUndefined();
+                    done();
+                });
+            });
+        });
+
         describe("requires a valid email format / ", function () {
             var invalidEmails = ['abc', '@abc.com', 'abc@', 'abc@abc', 'abc@abc.a'];
 
@@ -118,7 +136,12 @@ describe("Model: User", function () {
 
     describe("application logic / ", function () {
 
-
+        // it("sets a new user's password to the string left of the emails's @", function (done) {
+        //     validNewUser.save(function (err) {
+        //         expect(validNewUser.authenticate()).not.toBeUndefined();
+        //         done();
+        //     });
+        // });
 
         // it("sets a new user's password to the string left of the emails's @", function (done) {
         //     validNewUser.save(function (err) {

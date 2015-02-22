@@ -22,7 +22,7 @@ var UserSchema = new Schema({
     forcePasswordReset: { type: Boolean, default: true },
     password: { type: String, select: false,
         validate: function (val) {
-            return val == undefined ? true : val.length > 3;
+            return !val ? true : val.length > 3;
         }
     },
     createdAt: { type: Date, default: Date.now },
@@ -42,14 +42,15 @@ UserSchema.pre('save', function (next) {
     var user = this;
 
     // hash the password only if the user is new or password has been changed
-    if (!user.isModified('password')) return next();
+    if (user.isModified('password')) {
+        // update the password with a hash
+        bcrypt.hash(user.password, null, null, function (err, hash) {
+            if (err) return next(err);
+            user.password = hash;
+        });
+    }
 
-    // update the password with a hash
-    bcrypt.hash(user.password, null, null, function (err, hash) {
-        if (err) return next(err);
-        user.password = hash;
-        next();
-    });
+    return next();
 });
 
 // return the model
