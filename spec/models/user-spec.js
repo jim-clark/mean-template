@@ -63,6 +63,14 @@ describe("Model: User", function () {
             });
         });
 
+        it("is invalid with a password, if provided, with a length < 4", function (done) {
+            validNewUser.password = "abc";
+            validNewUser.validate(function (err) {
+                expect(err).not.toBeUndefined();
+                done();
+            });
+        });
+
         it("defaults isAdmin to false", function () {
             expect(validNewUser.isAdmin).toBe(false);
         });
