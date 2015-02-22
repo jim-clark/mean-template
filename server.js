@@ -71,18 +71,8 @@ app.use(function(err, req, res, next) {
 // passport.serializeUser(Account.serializeUser());
 // passport.deserializeUser(Account.deserializeUser());
 
-// // mongoose
-// mongoose.connect('mongodb://localhost/passport_local_mongoose');
-
+// db will be mongoose connected according to the op environment
 var db = require('./server/config/database');
-mongoose.connect(db.url);
-var db = mongoose.connection;
-db.on('error', function (msg) {
-    console.log(msg);
-});
-db.once('open', function () {
-    console.log('db connection to %s was successful', mongodb_connection_string);
-});
 
 var server_port = process.env.OPENSHIFT_NODEJS_PORT || 8080;
 var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
