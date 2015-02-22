@@ -137,19 +137,20 @@ describe("Model: User", function () {
     describe("business-logic / ", function () {
 
         it("saves the password as a hash", function (done) {
-            validNewUser.password = 'abc123'
+            validNewUser.password = 'abc123';
             validNewUser.save(function (err) {
                 expect(validNewUser.password).not.toBe('abc123');
                 done();
             });
         });
 
-        // it("sets a new user's password to the string left of the emails's @", function (done) {
-        //     validNewUser.save(function (err) {
-        //         expect(validNewUser.authenticate()).not.toBeUndefined();
-        //         done();
-        //     });
-        // });
+        it("can verify a user's password", function (done) {
+            validNewUser.password = 'abc123';
+            validNewUser.save(function (err) {
+                expect(validNewUser.verifyPassword('abc123')).toBe(true);
+                done();
+            });
+        });
 
     });  // describe "business logic / "
 

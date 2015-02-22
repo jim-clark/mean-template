@@ -33,14 +33,13 @@ UserSchema.virtual('fullName').get(function () {
     return this.firstName + ' ' + this.lastName;
 });
 
-UserSchema.methods.authenticate = function (password) {
+UserSchema.methods.verifyPassword = function (password) {
     var user = this;
     return bcrypt.compareSync(password, user.password);
 };
 
 UserSchema.pre('save', function (next) {
     var user = this;
-
     // hash the password only if the user is new or password has been changed
     if (user.isModified('password')) {
         // update the password with a hash
@@ -52,7 +51,6 @@ UserSchema.pre('save', function (next) {
     } else {
         return next();
     }
-
 });
 
 // return the model
