@@ -1,3 +1,0 @@
-describe('TestController Test', function() {
-
-});

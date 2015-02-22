@@ -2,7 +2,10 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var bcrypt = require('bcrypt-nodejs');
 
-// user schema
+/*
+    Exports a User mongoose model
+*/
+
 var UserSchema = new Schema({
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
@@ -29,6 +32,15 @@ var UserSchema = new Schema({
     updatedAt: { type: Date, default: Date.now }
 });
 
+UserSchema.virtual('fullName').get(function () {
+    return this.firstName + ' ' + this.lastName;
+});
+
+UserSchema.methods.authenticate = function (password) {
+    var user = this;
+    return bcrypt.compareSync(password, user.password);
+};
+
 UserSchema.pre('save', function (next) {
     var user = this;
 
@@ -42,15 +54,6 @@ UserSchema.pre('save', function (next) {
         next();
     });
 });
-
-UserSchema.methods.fullName = function () {
-    return this.firstName + ' ' + this.lastName;
-};
-
-UserSchema.methods.authenticate = function (password) {
-    var user = this;
-    return bcrypt.compareSync(password, user.password);
-};
 
 // return the model
 module.exports = mongoose.model('User', UserSchema);
