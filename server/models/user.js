@@ -47,10 +47,12 @@ UserSchema.pre('save', function (next) {
         bcrypt.hash(user.password, null, null, function (err, hash) {
             if (err) return next(err);
             user.password = hash;
+            return next();
         });
+    } else {
+        return next();
     }
 
-    return next();
 });
 
 // return the model

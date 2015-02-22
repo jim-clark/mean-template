@@ -134,14 +134,15 @@ describe("Model: User", function () {
 
     });  // describe "validation - "
 
-    describe("application logic / ", function () {
+    describe("business-logic / ", function () {
 
-        // it("sets a new user's password to the string left of the emails's @", function (done) {
-        //     validNewUser.save(function (err) {
-        //         expect(validNewUser.authenticate()).not.toBeUndefined();
-        //         done();
-        //     });
-        // });
+        it("saves the password as a hash", function (done) {
+            validNewUser.password = 'abc123'
+            validNewUser.save(function (err) {
+                expect(validNewUser.password).not.toBe('abc123');
+                done();
+            });
+        });
 
         // it("sets a new user's password to the string left of the emails's @", function (done) {
         //     validNewUser.save(function (err) {
