@@ -19,15 +19,11 @@ var UserSchema = new Schema({
     //         'Not a valid email format'
     //     ]
     },
-    // isAdmin: { type: Boolean, default: false },
-    // canEdit: { type: Boolean, default: true },
+    isAdmin: { type: Boolean, default: false },
+    canEdit: { type: Boolean, default: true },
     isActive: { type: Boolean, default: true },
-    // force_password_reset: { type: Boolean, default: true },
-    password: {
-        type: String,
-        required: true,
-        select: false
-    },
+    forcePasswordReset: { type: Boolean, default: true },
+    password: { type: String, select: false },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
 });
