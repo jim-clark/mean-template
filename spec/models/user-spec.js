@@ -14,9 +14,9 @@ describe("Model: User", function () {
 
     beforeEach(function () {
         validNewUser = new User({
-            firstName: "Jim",
-            lastName: "Clark",
-            email: "email@jim-clark.com"
+            firstName: "Johnny",
+            lastName: "Carson",
+            email: "johnny@carson.com"
         });
     });
 
@@ -100,15 +100,15 @@ describe("Model: User", function () {
         });
 
         it("should have a fullName virtual field", function () {
-            expect(validNewUser.fullName).toBe('Jim Clark');
+            expect(validNewUser.fullName).toBe('Johnny Carson');
         });
 
         it("is invalid if the email already exists", function (done) {
             validNewUser.save(function (err) {
                 anotherUser = new User({
-                    firstName: "Jim",
-                    lastName: "Clark",
-                    email: "email@jim-clark.com"
+                    firstName: "Fred",
+                    lastName: "Smith",
+                    email: "johnny@carson.com"
                 });                
                 anotherUser.save(function (err) {
                     expect(err).not.toBeUndefined();
@@ -148,6 +148,15 @@ describe("Model: User", function () {
             validNewUser.password = 'abc123';
             validNewUser.save(function (err) {
                 expect(validNewUser.verifyPassword('abc123')).toBe(true);
+                done();
+            });
+        });
+
+        it("defaults the password to the string to the left of the @ in the email", function (done) {
+            // purposely don't set a password
+            // should default to 'johnny' since the email address of validNewUser is 'johnny@carson.com'
+            validNewUser.save(function (err) {
+                expect(validNewUser.verifyPassword('johnny')).toBe(true);
                 done();
             });
         });
