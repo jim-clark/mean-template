@@ -20,7 +20,7 @@ var UserSchema = new Schema({
     canEdit: { type: Boolean, default: true },
     isActive: { type: Boolean, default: true },
     forcePasswordReset: { type: Boolean, default: true },
-    password: { type: String, select: false,
+    password: { type: String,
         validate: function (val) {
             return !val ? true : val.length > 3;
         }
@@ -55,6 +55,13 @@ UserSchema.pre('save', function (next) {
         });
     } else {
         return next();
+    }
+});
+
+UserSchema.set('toJSON', {
+    virtuals: true,
+    transform: function (doc, ret, options) {
+        delete ret.password;
     }
 });
 
