@@ -4,10 +4,10 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require('express-session');
 var cors = require('cors');
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
 var mongoose = require('mongoose');
+var User = require('./server/models/user');
 
 var app = express();
 app.mongoose = mongoose;  // expose for testing
@@ -27,23 +27,11 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/bower_components',  express.static(__dirname + '/bower_components'));
 app.use(cors());
-// set up our routes after the above middleware
+
+// set up our routes after all of the above middleware
 require('./server/routes/index')(app);
-// setup passport
-// app.use(passport.initialize());
-// app.use(passport.session);
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
-});
-
-// error handlers
-
-// development error handler
-// will print stacktrace
+// development error handler will print stacktrace
 if (app.get('env') === 'development') {
     app.use(function(err, req, res, next) {
         res.status(err.status || 500);
@@ -54,8 +42,7 @@ if (app.get('env') === 'development') {
     });
 }
 
-// production error handler
-// no stacktraces leaked to user
+// production error handler - no stacktraces leaked to user
 app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.render('error', {
@@ -63,13 +50,6 @@ app.use(function(err, req, res, next) {
         error: {}
     });
 });
-
-// below from http://mherman.org/blog/2013/11/11/user-authentication-with-passport-dot-js/#.VOaLB1PF__w
-// // passport config
-// var Account = require('./models/account');
-// passport.use(new LocalStrategy(Account.authenticate()));
-// passport.serializeUser(Account.serializeUser());
-// passport.deserializeUser(Account.deserializeUser());
 
 // db will be mongoose connected according to the op environment
 var db = require('./server/config/database');
@@ -83,6 +63,5 @@ app.server = app.listen(server_port, server_ip_address, function () {
   console.log( "Listening on " + server_ip_address + ":" + server_port );
   if (app.ready) { app.ready(); }
 });
-
 
 module.exports = app;
