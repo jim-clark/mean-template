@@ -25,6 +25,7 @@ var UserSchema = new Schema({
             return !val ? true : val.length > 3;
         }
     },
+    token: { type: String, index: true },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
 });

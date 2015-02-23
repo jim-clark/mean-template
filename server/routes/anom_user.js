@@ -2,7 +2,8 @@ var express = require('express');
 var router = express.Router();
 var User = require('../models/user');
 var bcrypt = require('bcrypt-nodejs');
-
+var crypto = require('crypto');
+var oneWeek = 60000 * 60 * 24 * 7;
 
 /*
     The anom_user route is assigned to the '/login' path.
@@ -26,9 +27,17 @@ router.post('/', function(req, res) {
         } else {
             // verify hash of password matches password in db
             if (user.verifyPassword(req.body.password)) {
-                res.json({
-                    success: true,
-                    user: user.toJSON()
+                //  generate unique token and set it in cookie and user
+                crypto.randomBytes(48, function (ex, buf) {
+                    var token = buf.toString('hex');
+                    user.token = token;
+                    user.save(function (err) {
+                        res.cookie('carf-token', token, { maxAge: oneWeek });
+                        res.json({
+                            success: true,
+                            user: user.toJSON()
+                        });
+                    });
                 });
             } else {
                 res.json({

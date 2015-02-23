@@ -40,6 +40,7 @@ describe("Controller: anom_user", function () {
     });
 
     describe("POST /login", function () {
+        var resData, res;
         var credentials = {
                 email: 'johnny@carson.com',
                 password: 'johnny'
@@ -52,10 +53,10 @@ describe("Controller: anom_user", function () {
             };
 
         describe("/ login with valid credentials /", function () {
-            var resData;
 
             beforeAll(function (done) {
                 request(options, function (err, response, body) {
+                    res = response;
                     resData = body;
                     done();
                 });
@@ -73,19 +74,38 @@ describe("Controller: anom_user", function () {
                 expect(resData.user.password).toBeUndefined();
             });
 
+            it("should have a cookie with carf-token set", function () {
+                expect(res.headers['set-cookie']).not.toBeUndefined();
+            });
+
+            it("should have updated newUser's token field", function (done) {
+                User.findOne( {email: newUser.email }, function (err, user) {
+                    expect(user.token).toBeTruthy();
+                    done();
+                });
+            });
+
         });  // describe "/ login with valid credentials /"
 
-        it("should return json with a key named 'success' set to false when called with improper credentials", function (done) {
-            options.body.password = 'invalid password';
-            request(options, function (err, response, body) {
-                expect(response.statusCode).toBe(200);
-                expect(body.success).toBe(false);
-                done();
+        describe("/ invalid login /", function () {
+
+            beforeAll(function (done) {
+                options.body.password = 'invalid password';
+                request(options, function (err, response, body) {
+                    resData = body;
+                    done();
+                });
             });
-        });
 
+            it("should return json with a key named 'success' set to false when called with improper credentials", function (done) {
+                options.body.password = 'invalid password';
+                request(options, function (err, response, body) {
+                    expect(body.success).toBe(false);
+                    done();
+                });
+            });
 
-
+        });  // describe "/ invalid login /"
 
     });  // describe "POST /login"
 
