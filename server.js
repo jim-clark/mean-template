@@ -10,7 +10,6 @@ var LocalStrategy = require('passport-local').Strategy;
 var mongoose = require('mongoose');
 
 var app = express();
-require('./server/routes/index')(app);
 app.mongoose = mongoose;  // expose for testing
 
 // view engine setup
@@ -28,6 +27,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/bower_components',  express.static(__dirname + '/bower_components'));
 app.use(cors());
+// set up our routes after the above middleware
+require('./server/routes/index')(app);
 // setup passport
 // app.use(passport.initialize());
 // app.use(passport.session);
