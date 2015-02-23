@@ -3,12 +3,12 @@ var router = express.Router();
 
 /*
     The 'user' routes handle funtionality for a single user, such as,
-    loggin out, updating their email & changing their password
+    loggin out, updating own info such as their name, email & changing their password
 */
 
 // middleware that executes on every request to '/user'
 router.use(function (req, res, next) {
-    // get logged in user
+    // req.user holds currently logged in user
 
     next();
 });

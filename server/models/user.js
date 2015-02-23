@@ -67,7 +67,10 @@ UserSchema.pre('save', function (next) {
 UserSchema.set('toJSON', {
     virtuals: true,
     transform: function (doc, ret, options) {
+        delete ret.id;
+        delete ret._id;
         delete ret.password;
+        delete ret.token;
     }
 });
 

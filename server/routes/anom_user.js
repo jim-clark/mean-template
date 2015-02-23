@@ -14,12 +14,14 @@ var oneWeek = 60000 * 60 * 24 * 7;
 router.post('/', function(req, res) {
     // find the user by email
     User.findOne({ email: req.body.email }, function (err, user) {
-        if (!user) {
+        if (err) {
+            res.clearCookie('carf-token');
             res.json({
                 success: false,
                 message: 'Invalid email and/or password'  // keep 'em guessing :)
             });
         } else if (!user.isActive) {
+            res.clearCookie('carf-token');
             res.json({
                 success: false,
                 message: 'The account of ' + req.body.email + ' is account is inactive'
@@ -40,6 +42,7 @@ router.post('/', function(req, res) {
                     });
                 });
             } else {
+                res.clearCookie('carf-token');
                 res.json({
                     success: false,
                     message: 'Invalid email and/or password'  // keep 'em guessing :)

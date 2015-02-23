@@ -13,6 +13,23 @@
     <h1><%= title %></h1>
     <p>Welcome to <%= title %></p>
 
+    <form action="/login" method="POST">
+    <p>login</p>
+      <input type="text" name="email">
+      <input type="text" name="password">
+      <button type="submit">login</button>
+    </form>
+
+    <form action="/admin/user" method="POST">
+    <p>create</p>
+      <input type="text" name="firstName">
+      <input type="text" name="lastName">
+      <input type="text" name="email">
+      <button type="submit">create</button>
+    </form>
+
+    <p><%= user %></p>
+
     <!-- build:js /js/site.js -->
     <script src="/bower_components/jquery/dist/jquery.js"></script>
     <script src="/bower_components/angular/angular.js"></script>
