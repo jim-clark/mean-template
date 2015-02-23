@@ -161,6 +161,17 @@ describe("Model: User", function () {
             });
         });
 
+        it("sets canEdit to true on update if isAdmin is true", function (done) {
+            validNewUser.canEdit = false;
+            validNewUser.save(function (err) {
+                validNewUser.isAdmin = true;
+                validNewUser.save(function () {
+                    expect(validNewUser.canEdit).toBe(true);
+                    done();
+                });
+            });
+        });
+
     });  // describe "business logic / "
 
 

@@ -58,6 +58,11 @@ UserSchema.pre('save', function (next) {
     }
 });
 
+UserSchema.pre('save', function (next) {
+    if (this.isModified('isAdmin') && this.isAdmin) this.canEdit = true;
+    return next();
+});
+
 UserSchema.set('toJSON', {
     virtuals: true,
     transform: function (doc, ret, options) {
